@@ -1,4 +1,4 @@
-// Harry Katagis - 2017
+// Harry Katagis - 2019
 
 #include "NumericalTextBox.h"
 
@@ -13,6 +13,7 @@ UNumericalTextBox::UNumericalTextBox(const FObjectInitializer& ObjectInitializer
 	MaxValue = 100;
 
 	CurrentValue = 0;
+	UseSmartTypingClamp = true;
 }
 
 int32 UNumericalTextBox::GetValue() const {
@@ -105,7 +106,7 @@ void UNumericalTextBox::HandleOnTextCommitted(const FText& InText, ETextCommit::
 	OnValueCommitted.Broadcast(GetValue(), CommitMethod);
 }
 
-int32 UNumericalTextBox::GetClamped(int32 InValue) {
+int32 UNumericalTextBox::GetClamped(int32 InValue) const {
 	if (bUse_MinClamp) {
 		InValue = FMath::Max(InValue, MinValue);
 	}
@@ -115,7 +116,11 @@ int32 UNumericalTextBox::GetClamped(int32 InValue) {
 	return InValue;
 }
 
-int32 UNumericalTextBox::GetSoftClamped(int32 InValue) {
+int32 UNumericalTextBox::GetSoftClamped(int32 InValue) const {
+	if (!UseSmartTypingClamp) {
+		return GetClamped(InValue);
+	}
+
 	if (bUse_MinClamp && MinValue >= 0) {
 		InValue = FMath::Max(InValue, 0);
 	}
@@ -161,10 +166,8 @@ TOptional<int32> UNumericalTextBox::GetValueFromText(const FText& Text) {
 }
 
 FText UNumericalTextBox::GetTextFromValue(int32 Value) {
-	// Only update the values that need to be changed from the default FNumberFormattingOptions, 
-	// as this lets us use the default formatter if possible (which is a performance win!)
 	FNumberFormattingOptions NumberFormatOptions;
-	NumberFormatOptions.AlwaysSign = false;;
+	NumberFormatOptions.AlwaysSign = false;
 	NumberFormatOptions.UseGrouping = false;
 	NumberFormatOptions.MinimumIntegralDigits = 1;
 

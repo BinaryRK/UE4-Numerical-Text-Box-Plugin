@@ -1,4 +1,4 @@
-// Harry Katagis - 2017
+// Harry Katagis - 2019
 
 #pragma once
 
@@ -80,6 +80,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	int32 GetMaxValue() const;
 
+	/** Whether to use editing improvements for numbers when using clamping. 
+	* eg: typing '4' while MinValue is 10 will go through editing phase to allow typing 40. 
+	* Using GetValue will always return a properly clamped value. 
+	* Commiting the changes in any way will replace the value with the clamped one.
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Behavior, AdvancedDisplay)
+	bool UseSmartTypingClamp;
 public:
 	//~ Begin UWidget Interface
 	virtual void SynchronizeProperties() override;
@@ -91,10 +98,10 @@ public:
 protected:
 	int32 CurrentValue;
 
-	int32 GetClamped(int32 InValue);
+	int32 GetClamped(int32 InValue) const;
 
 	/** Specific clamp used for nice typing behavior. eg: attempting to type 40 in a value that can go from 10-50 */
-	int32 GetSoftClamped(int32 InValue);
+	int32 GetSoftClamped(int32 InValue) const;
 
 
 	static TOptional<int32> GetValueFromText(const FText& Text);
