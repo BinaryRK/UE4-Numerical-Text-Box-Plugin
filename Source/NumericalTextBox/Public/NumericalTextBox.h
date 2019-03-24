@@ -29,14 +29,14 @@ public:
 	uint8 bUse_MinClamp : 1;
 
 	/** Only allow values >= than this. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Content, meta = (editcondition = "bUse_MinClamp"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Content, meta = (editcondition = "bUse_MinClamp"))
 	int32 MinValue;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Content, meta = (PinHiddenByDefault, InlineEditConditionToggle))
 	uint8 bUse_MaxClamp : 1;
 
 	/** Only allow values <= than this. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Content, meta = (editcondition = "bUse_MaxClamp"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Content, meta = (editcondition = "bUse_MaxClamp"))
 	int32 MaxValue;
 
 public:
@@ -55,6 +55,30 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	void SetValue(int32 NewValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	void SetMinValue(int32 NewMin);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	void SetMaxValue(int32 NewMax);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	void SetClampMin(bool ShouldClampMin);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	void SetClampMax(bool ShouldClampMax);
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	bool IsClampingMin() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	bool IsClampingMax() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	int32 GetMinValue() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	int32 GetMaxValue() const;
 
 public:
 	//~ Begin UWidget Interface

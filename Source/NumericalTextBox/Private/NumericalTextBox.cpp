@@ -25,6 +25,48 @@ void UNumericalTextBox::SetValue(int32 NewValue) {
 	SetText(GetTextFromValue(NewValue));
 }
 
+void UNumericalTextBox::SetMinValue(int32 NewMin) {
+	MinValue = NewMin;
+	SetClampMin(true);
+}
+
+void UNumericalTextBox::SetMaxValue(int32 NewMax) {
+	MaxValue = NewMax;
+	SetClampMax(true);
+}
+
+void UNumericalTextBox::SetClampMin(bool ShouldClampMin) {
+	bUse_MinClamp = ShouldClampMin;
+	if (bUse_MaxClamp && bUse_MinClamp) {
+		MaxValue = FMath::Max(MaxValue, MinValue);
+	}
+	SetValue(CurrentValue);
+}
+
+void UNumericalTextBox::SetClampMax(bool ShouldClampMax) {
+	bUse_MaxClamp = ShouldClampMax;
+	if (bUse_MaxClamp && bUse_MinClamp) {
+		MinValue = FMath::Min(MaxValue, MinValue);
+	}
+	SetValue(CurrentValue);
+}
+
+bool UNumericalTextBox::IsClampingMin() const {
+	return bUse_MinClamp;
+}
+
+bool UNumericalTextBox::IsClampingMax() const {
+	return bUse_MaxClamp;
+}
+
+int32 UNumericalTextBox::GetMinValue() const {
+	return MinValue;
+}
+
+int32 UNumericalTextBox::GetMaxValue() const {
+	return MaxValue;
+}
+
 void UNumericalTextBox::SynchronizeProperties() {
 	Super::SynchronizeProperties();
 
