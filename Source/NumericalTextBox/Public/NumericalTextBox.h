@@ -80,6 +80,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Widget")
 	int32 GetMaxValue() const;
 
+
+	// Returns the width of highest length allowed number. Can be used to set a fixed width at setup.
+	UFUNCTION(BlueprintCallable, Category = "Widget")
+	int32 GetCharactersWidth() const;
+
+
 	/** Whether to use editing improvements for numbers when using clamping. 
 	* eg: typing '4' while MinValue is 10 will go through editing phase to allow typing 40. 
 	* Using GetValue will always return a properly clamped value. 

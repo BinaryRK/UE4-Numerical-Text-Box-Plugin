@@ -68,6 +68,22 @@ int32 UNumericalTextBox::GetMaxValue() const {
 	return MaxValue;
 }
 
+int32 UNumericalTextBox::GetCharactersWidth() const {
+	auto CountDigits = [](int32 Num) {
+		int32 Digits = 0;
+		if (Num < 0) {
+			Digits = 1;
+		}
+		while (Num) {
+			Num /= 10;
+			Digits++;
+		}
+		return Digits;
+	};
+
+	return FMath::Max(CountDigits(MinValue), CountDigits(MaxValue));
+}
+
 void UNumericalTextBox::SynchronizeProperties() {
 	Super::SynchronizeProperties();
 
