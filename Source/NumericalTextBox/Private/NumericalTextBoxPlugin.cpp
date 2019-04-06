@@ -17,4 +17,4 @@ void FNumericalTextBoxPluginModule::ShutdownModule()
 
 #undef LOCTEXT_NAMESPACE
 	
-IMPLEMENT_MODULE(FNumericalTextBoxPluginModule, NumericalTextBox)
+IMPLEMENT_MODULE(FNumericalTextBoxPluginModule, NumericalTextBoxPlugin)
